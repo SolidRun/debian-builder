@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+    Copyright 2020-2021 Josua Mayer <josua@solid-run.com>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<!-- Level 3 -->
+	<xs:complexType name="Section">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="offset" type="xs:integer" use="required"/>
+		<xs:attribute name="source" type="xs:string" use="optional"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<!-- Level 2 -->
+	<xs:complexType name="Image">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="section" type="Section"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<!-- Level 1 -->
+	<xs:complexType name="ImageList">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="image" type="Image"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Level 0 -->
+	<xs:element name="images" type="ImageList"/>
+</xs:schema>

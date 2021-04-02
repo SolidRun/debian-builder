@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2021 Josua Mayer <josua@solid-run.com>
+-->
+<image name="sr-imx8">
+	<description type="system">
+		<author>Josua Mayer</author>
+		<contact>support@solid-run.com</contact>
+		<specification>SolidRun Debian 10 for i.MX8</specification>
+	</description>
+	<preferences>
+		<version>5</version>
+		<packagemanager>apt-get</packagemanager>
+		<type image="ext4"/>
+		<rpm-check-signatures>true</rpm-check-signatures>
+	</preferences>
+	<users>
+		<user name="root" password="" groups="root" home="/root" shell="/usr/bin/bash"/>
+		<user name="debian" pwdformat="plain" password="debian" groups="debian,sudo" home="/home/debian" shell="/usr/bin/bash"/>
+	</users>
+	<repository type="apt-deb" distribution="buster" components="main non-free" use_for_bootstrap="true" repository_gpgcheck="true">
+		<source path="http://deb.debian.org/debian"/>
+	</repository>
+	<repository type="apt-deb" repository_gpgcheck="true">
+		<source path="https://repo.solid-build.xyz/debian/buster/bsp-any"/>
+	</repository>
+	<repository type="apt-deb" repository_gpgcheck="true">
+		<source path="https://repo.solid-build.xyz/debian/buster/bsp-imx8v2"/>
+	</repository>
+	<packages type="bootstrap">
+		<!-- additional packages for bootstrap stage -->
+		<package name="apt-transport-https"/>
+		<package name="busybox"/>
+		<package name="ca-certificates"/>
+		<package name="curl"/>
+		<package name="locales"/>
+		<package name="initramfs-tools"/>
+		<package name="systemd-sysv"/>
+	</packages>
+	<packages type="image">
+		<!-- system packages: debian -->
+		<package name="alsa-utils"/>
+		<package name="command-not-found"/>
+		<package name="connman"/>
+		<package name="flash-kernel"/>
+		<package name="i2c-tools"/>
+		<package name="ifupdown"/>
+		<package name="isc-dhcp-client"/>
+		<package name="iw"/>
+		<package name="mtd-utils"/>
+		<package name="nano"/>
+		<package name="ntfs-3g"/>
+		<package name="openssh-server"/>
+		<package name="pciutils"/>
+		<package name="psmisc"/>
+		<package name="rfkill"/>
+		<package name="sudo"/>
+		<package name="usbutils"/>
+		<package name="wget"/>
+		<!-- system packages: bsp-any -->
+		<package name="bsp-solidrun-imx8"/>
+		<package name="devmem2"/>
+		<package name="solidrun-keyring"/>
+		<!-- system packages: bsp-imx8v2 -->
+		<package name="linux-image-5.4.y-imx8-sr"/>
+	</packages>
+	<packages type="image">
+		<!-- system packages: bootable disk image -->
+		<archive name="expand-fs.tar"/>
+		<package name="expand-fs"/>
+		<package name="flash-kernel"/>
+		<archive name="hosts.tar"/>
+		<package name="parted"/>
+		<package name="runonce"/>
+		<package name="uuid-runtime"/>
+		<package name="u-boot-tools"/>
+	</packages>
+</image>

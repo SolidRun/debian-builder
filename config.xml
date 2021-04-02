@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2021 Josua Mayer <josua@solid-run.com>
+-->
+<!-- Configure image parameters and variants -->
+<images>
+	<image name="sr-imx8-debian-buster-imx8mm-hummingboard-pulse">
+		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mm-hbp-microsd.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+	</image>
+	<image name="sr-imx8-debian-buster-imx8mp-hummingboard-pulse">
+		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-hbp-microsd.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+	</image>
+	<image name="sr-imx8-debian-buster-imx8mq-hummingboard-pulse">
+		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mq-hbp-microsd.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+	</image>
+	<image name="sr-imx8-debian-buster-imx8mq-cubox-pulse">
+		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mq-cbp-microsd.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+	</image>
+</images>
