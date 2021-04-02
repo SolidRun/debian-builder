@@ -10,7 +10,7 @@
 
 ## Configure Images
 
-According to the XML Schema described in *config.xsd*, ***config.xml*** describes all system images that are to be built.
+According to the XML Schema described in *images.xsd*, ***images.xml*** describes all system images that are to be built.
 
 ## Build Images
 

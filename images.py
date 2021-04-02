@@ -247,9 +247,9 @@ if __name__ == "__main__":
 	config = None
 	logger.info(f'Loading configuration')
 	try:
-		schema =  XMLSchema('config.xsd')
-		schema.validate('config.xml')
-		config = schema.to_dict('config.xml')
+		schema =  XMLSchema('images.xsd')
+		schema.validate('images.xml')
+		config = schema.to_dict('images.xml')
 	except XMLSchemaException as error:
 		logger.error(error)
 		exit(1)

@@ -6,54 +6,54 @@
 <images>
 	<!-- Armada 8040 Debian 11 -->
 	<image name="sr-8040-debian-bullseye">
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-8040-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-8040-debian-11"/>
 	</image>
 	<image name="sr-8040-debian-bullseye-mcbin">
 		<section offset="512" name="u-boot" type="blob" source="u-boot-mcbin-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-8040-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-8040-debian-11"/>
 	</image>
 	<image name="sr-8040-debian-bullseye-cfgt">
 		<section offset="512" name="u-boot" type="blob" source="u-boot-cfgt-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-8040-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-8040-debian-11"/>
 	</image>
 	<!-- i.MX6 Debian 11 -->
 	<image name="sr-imx6-debian-bullseye">
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx6-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx6-debian-11"/>
 		<section offset="1024" name="spl" type="blob" source="build/sr-imx6-debian-bullseye/rootfs/usr/lib/u-boot/mx6cuboxi/SPL"/>
 		<section offset="70656" name="u-boot" type="blob" source="build/sr-imx6-debian-bullseye/rootfs/usr/lib/u-boot/mx6cuboxi/u-boot.img"/>
 	</image>
 	<!-- i.MX8 Debian 10 -->
 	<image name="sr-imx8-debian-buster-imx8mm-hummingboard-pulse">
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mm-hbp-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
 	</image>
 	<image name="sr-imx8-debian-buster-imx8mp-cubox-pulse">
 		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-cubox-pulse-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
 	</image>
 	<image name="sr-imx8-debian-buster-imx8mp-hummingboard-pulse">
 		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-hbp-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
 	</image>
 	<image name="sr-imx8-debian-buster-imx8mq-hummingboard-pulse">
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mq-hbp-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-10"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
 	</image>
 	<!-- i.MX8 Debian 11 -->
 	<image name="sr-imx8-debian-bullseye-imx8mm-hummingboard-pulse">
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mm-hbp-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
 	<image name="sr-imx8-debian-bullseye-imx8mp-cubox-pulse">
 		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-cubox-pulse-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
 	<image name="sr-imx8-debian-bullseye-imx8mp-hummingboard-pulse">
 		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-hbp-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
 	<image name="sr-imx8-debian-bullseye-imx8mq-hummingboard-pulse">
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mq-hbp-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx8-debian-11"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
 </images>
