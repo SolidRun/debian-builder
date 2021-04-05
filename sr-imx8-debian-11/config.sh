@@ -21,17 +21,17 @@ systemctl set-default multi-user.target
 
 # configure repositories
 cat > /etc/apt/sources.list << EOF
-deb http://deb.debian.org/debian/ buster main
-deb-src http://deb.debian.org/debian/ buster main
-deb http://security.debian.org/debian-security buster/updates main
-deb-src http://security.debian.org/debian-security buster/updates main
-deb http://deb.debian.org/debian/ buster-updates main
-deb-src http://deb.debian.org/debian/ buster-updates main
+deb http://deb.debian.org/debian/ bullseye main
+deb-src http://deb.debian.org/debian/ bullseye main
+deb http://security.debian.org/debian-security bullseye/updates main
+deb-src http://security.debian.org/debian-security bullseye/updates main
+deb http://deb.debian.org/debian/ bullseye-updates main
+deb-src http://deb.debian.org/debian/ bullseye-updates main
 
-deb https://repo.solid-build.xyz/debian/buster/bsp-any /
-deb-src https://repo.solid-build.xyz/debian/buster/bsp-any /
-deb https://repo.solid-build.xyz/debian/buster/bsp-imx8v2 /
-deb-src https://repo.solid-build.xyz/debian/buster/bsp-imx8v2 /
+deb https://repo.solid-build.xyz/debian/bullseye/bsp-any /
+deb-src https://repo.solid-build.xyz/debian/bullseye/bsp-any /
+deb https://repo.solid-build.xyz/debian/bullseye/bsp-imx8v2 /
+deb-src https://repo.solid-build.xyz/debian/bullseye/bsp-imx8v2 /
 EOF
 
 # configure first nic

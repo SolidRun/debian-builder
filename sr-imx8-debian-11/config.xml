@@ -18,14 +18,14 @@
 		<user name="root" password="" groups="root" home="/root" shell="/usr/bin/bash"/>
 		<user name="debian" pwdformat="plain" password="debian" groups="debian,audio,sudo,video" home="/home/debian" shell="/usr/bin/bash"/>
 	</users>
-	<repository type="apt-deb" distribution="buster" components="main non-free" use_for_bootstrap="true" repository_gpgcheck="true">
+	<repository type="apt-deb" distribution="bullseye" components="main non-free" use_for_bootstrap="true" repository_gpgcheck="true">
 		<source path="http://deb.debian.org/debian"/>
 	</repository>
 	<repository type="apt-deb" repository_gpgcheck="true">
-		<source path="https://repo.solid-build.xyz/debian/buster/bsp-any"/>
+		<source path="https://repo.solid-build.xyz/debian/bullseye/bsp-any"/>
 	</repository>
 	<repository type="apt-deb" repository_gpgcheck="true">
-		<source path="https://repo.solid-build.xyz/debian/buster/bsp-imx8v2"/>
+		<source path="https://repo.solid-build.xyz/debian/bullseye/bsp-imx8v2"/>
 	</repository>
 	<packages type="bootstrap">
 		<!-- additional packages for bootstrap stage -->
@@ -64,8 +64,20 @@
 		<package name="solidrun-keyring"/>
 		<!-- system packages: bsp-imx8v2 -->
 		<package name="linux-image-5.4.y-imx8-sr"/>
+		<!-- multimedia packages -->
 	</packages>
 	<packages type="image">
+		<!-- multimedia packages -->
+		<!-- todo: install in seperate apt step to allow apt config files taking effect -->
+		<!--
+		<package name="gstreamer1.0-alsa"/>
+		<package name="gstreamer1.0-imx"/>
+		<package name="gstreamer1.0-plugins-bad"/>
+		<package name="gstreamer1.0-plugins-good"/>
+		<package name="gstreamer1.0-plugins-ugly"/>
+		<package name="gstreamer1.0-tools"/>
+		<package name="imx-gpu-viv"/>
+		<package name="imx-gpu-viv-fb"/>-->
 		<!-- system packages: bootable disk image -->
 		<archive name="expand-fs.tar"/>
 		<package name="expand-fs"/>
