@@ -1,0 +1,12 @@
+$$destdir = "$destdir";
+$$inputdir = "$sourcedir";
+
+@distributions = ('bullseye');
+@architectures = ('arm64');
+@sections = ('main');
+
+%release = ('origin' => "solidrun/bsp-imx8/v3", 'description' => "SolidRun BSP for i.MX8 v3");
+
+$$gpgkey = $gpgkey if ($gpgkey);
+$$gpgpassfile = $gpgpassfile if ($gpgpassfile);
+1;

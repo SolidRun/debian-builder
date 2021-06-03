@@ -6,7 +6,7 @@
 	<description type="system">
 		<author>Josua Mayer</author>
 		<contact>support@solid-run.com</contact>
-		<specification>SolidRun Debian 10 for i.MX8</specification>
+		<specification>SolidRun Debian 11 for i.MX8</specification>
 	</description>
 	<preferences>
 		<version>5</version>
@@ -21,11 +21,8 @@
 	<repository type="apt-deb" distribution="bullseye" components="main non-free" use_for_bootstrap="true" repository_gpgcheck="true">
 		<source path="http://deb.debian.org/debian"/>
 	</repository>
-	<repository type="apt-deb" repository_gpgcheck="true">
-		<source path="https://repo.solid-build.xyz/debian/bullseye/bsp-any"/>
-	</repository>
-	<repository type="apt-deb" repository_gpgcheck="true">
-		<source path="https://repo.solid-build.xyz/debian/bullseye/bsp-imx8v2"/>
+	<repository type="apt-deb" repository_gpgcheck="false" distribution="bullseye" components="main">
+		<source path="http://127.0.0.1:8000/"/>
 	</repository>
 	<packages type="bootstrap">
 		<!-- additional packages for bootstrap stage -->
@@ -46,6 +43,7 @@
 		<package name="haveged"/>
 		<package name="i2c-tools"/>
 		<package name="ifupdown"/>
+		<package name="iputils-ping"/>
 		<package name="isc-dhcp-client"/>
 		<package name="iw"/>
 		<package name="mtd-utils"/>
@@ -58,12 +56,10 @@
 		<package name="sudo"/>
 		<package name="usbutils"/>
 		<package name="wget"/>
-		<!-- system packages: bsp-any -->
+		<!-- system packages: bsp-imx8 -->
 		<package name="bsp-solidrun-imx8"/>
-		<package name="devmem2"/>
 		<package name="solidrun-keyring"/>
-		<!-- system packages: bsp-imx8v2 -->
-		<package name="linux-image-5.4.y-imx8-sr"/>
+		<package name="linux-image-5.10.y-imx8-sr"/>
 		<!-- multimedia packages -->
 	</packages>
 	<packages type="image">
