@@ -49,5 +49,6 @@ sed -E -i "s;^LINUX_KERNEL_CMDLINE=.*$;LINUX_KERNEL_CMDLINE=\"log_level=7 net.if
 
 # install boot-script and DTBs
 env FK_MACHINE="SolidRun i.MX8MM HummingBoard Pulse" flash-kernel
+env FK_MACHINE="SolidRun i.MX8MP CuBox Pulse" flash-kernel
 env FK_MACHINE="SolidRun i.MX8MP HummingBoard Pulse" flash-kernel
 env FK_MACHINE="SolidRun i.MX8MQ HummingBoard Pulse" flash-kernel
