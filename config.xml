@@ -4,6 +4,18 @@
 -->
 <!-- Configure image parameters and variants -->
 <images>
+	<!-- Armada 8040 Debian 11 -->
+	<image name="sr-8040-debian-bullseye">
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-8040-debian-11"/>
+	</image>
+	<image name="sr-8040-debian-bullseye-mcbin">
+		<section offset="512" name="u-boot" type="blob" source="u-boot-mcbin-microsd.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-8040-debian-11"/>
+	</image>
+	<image name="sr-8040-debian-bullseye-cfgt">
+		<section offset="512" name="u-boot" type="blob" source="u-boot-cfgt-microsd.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="sr-8040-debian-11"/>
+	</image>
 	<!-- i.MX6 Debian 11 -->
 	<image name="sr-imx6-debian-bullseye">
 		<section offset="8388608" name="rootfs" type="rootfs" source="sr-imx6-debian-11"/>
