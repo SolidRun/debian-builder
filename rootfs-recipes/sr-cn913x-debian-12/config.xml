@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2022 Josua Mayer <josua@solid-run.com>
+-->
+<image name="sr-cn913x">
+	<description type="system">
+		<author>Josua Mayer</author>
+		<contact>support@solid-run.com</contact>
+		<specification>SolidRun Debian 12 (testing) for CN913x</specification>
+	</description>
+	<preferences>
+		<version>5</version>
+		<packagemanager>apt-get</packagemanager>
+		<type image="ext4"/>
+		<rpm-check-signatures>true</rpm-check-signatures>
+	</preferences>
+	<users>
+		<user name="root" password="" groups="root" home="/root" shell="/usr/bin/bash"/>
+		<user name="debian" pwdformat="plain" password="debian" groups="debian,sudo" home="/home/debian" shell="/usr/bin/bash"/>
+	</users>
+	<repository type="apt-deb" distribution="bookworm" components="main non-free" use_for_bootstrap="true" repository_gpgcheck="true">
+		<source path="http://deb.debian.org/debian"/>
+	</repository>
+	<repository type="apt-deb" repository_gpgcheck="false" distribution="bullseye" components="main">
+		<source path="http://127.0.0.1:8000/"/>
+	</repository>
+	<packages type="bootstrap">
+		<!-- additional packages for bootstrap stage -->
+		<package name="apt-transport-https"/>
+		<package name="busybox"/>
+		<package name="ca-certificates"/>
+		<package name="curl"/>
+		<package name="locales"/>
+		<package name="initramfs-tools"/>
+		<package name="systemd-sysv"/>
+	</packages>
+	<packages type="image">
+		<!-- system packages: debian -->
+		<package name="command-not-found"/>
+		<package name="flash-kernel"/>
+		<package name="haveged"/>
+		<package name="i2c-tools"/>
+		<package name="ifupdown"/>
+		<package name="iputils-ping"/>
+		<package name="isc-dhcp-client"/>
+		<package name="linux-image-arm64"/>
+		<package name="mtd-utils"/>
+		<package name="nano"/>
+		<package name="openssh-server"/>
+		<package name="pciutils"/>
+		<package name="psmisc"/>
+		<package name="sudo"/>
+		<package name="usbutils"/>
+		<package name="wget"/>
+		<!-- system packages: bsp-cn913x -->
+		<package name="bsp-solidrun-cn913"/>
+		<package name="solidrun-keyring"/>
+	</packages>
+	<packages type="image">
+		<!-- system packages: bootable disk image -->
+		<archive name="expand-fs.tar"/>
+		<package name="expand-fs"/>
+		<package name="flash-kernel"/>
+		<archive name="hosts.tar"/>
+		<package name="parted"/>
+		<package name="runonce"/>
+		<package name="uuid-runtime"/>
+		<package name="u-boot-tools"/>
+	</packages>
+</image>
