@@ -18,7 +18,9 @@ According to the XML Schema described in *images.xsd*, ***images.xml*** describe
     python3 -m http.server -d build/repo-sr-imx8-debian-11 &
 
     sudo mkdir -p /root/.gnupg
-    sudo .venv/bin/python3 ./images.py
+
+    # build an image by its xml name property
+    sudo .venv/bin/python3 ./images.py sr-imx8-debian-buster-imx8mm-hummingboard-pulse
 
 ## Prepare to build Packages
 

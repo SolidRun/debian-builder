@@ -17,6 +17,7 @@ from kiwi.xml_description import XMLDescription
 from kiwi.xml_state import XMLState
 
 from abc import ABC, abstractmethod
+import argparse
 from glob import glob
 import logging
 import math
@@ -243,6 +244,13 @@ class KiwiDiskImage:
 ### MAIN
 ###
 if __name__ == "__main__":
+	pwd = os.path.dirname(os.path.realpath(__file__))
+
+	# handle cli options
+	options = argparse.ArgumentParser(description='SolidRun Debian Image Builder')
+	options.add_argument('name', metavar='<name> [...]', action='store', nargs='+', help='image names to build')
+	args = options.parse_args()
+
 	# load configuration
 	config = None
 	logger.info(f'Loading configuration')
@@ -253,9 +261,26 @@ if __name__ == "__main__":
 	except XMLSchemaException as error:
 		logger.error(error)
 		exit(1)
+	if not 'image' in config:
+		print('Error: configuration invalid!')
+		exit(1)
+
+	# index image definitions by name
+	index = {}
+	for image in config['image']:
+		if '@name' in image:
+			index[image['@name']] = image
+		else:
+			print('Internal error: image definition missing name property!')
+			continue
+
+	# verify that given image definitions exist
+	for name in args.name:
+		if not name in index:
+			print(f'Error: Image entry for "{ name }" not found!')
+			exit(1)
 
 	# create top-level build directory
-	pwd = os.path.dirname(os.path.realpath(__file__))
 	if not os.path.isdir(f'{ pwd }/build'):
 		os.mkdir(path=f'{ pwd }/build')
 
@@ -268,14 +293,15 @@ if __name__ == "__main__":
 	Defaults.set_shared_cache_location(f'{ pwd }/build/cache')
 
 	# iterate over images
-	for image in config["image"]:
-		logger.info(f'Building \"{ image["@name"] }\" ...')
+	for name in args.name:
+		image = index[name]
+		logger.info(f'Building \"{ name }\" ...')
 
 		# prepare sections (pre-image)
 		sections=[]
 		for section in image["section"]:
 			# build section
-			ret = PrepareSection(args=section, destdir=f'{ pwd }/build/{ image["@name"] }')
+			ret = PrepareSection(args=section, destdir=f'{ pwd }/build/{ name }')
 			if ret is None:
 				exit(1)
 			sections.append(ret)
@@ -292,7 +318,7 @@ if __name__ == "__main__":
 				size = max(size, offset + section.size())
 
 		# create disk image
-		disk = KiwiDiskImage(path=f'{ pwd }/build/{ image["@name"] }.img', size=size)
+		disk = KiwiDiskImage(path=f'{ pwd }/build/{ name }.img', size=size)
 		disk.AddPartitionTable()
 		for section in sections:
 			if not disk.AddSection(section):
@@ -303,7 +329,7 @@ if __name__ == "__main__":
 			if not FinalizeSection(section=section, image=disk):
 				exit(1)
 
-		logger.info(f'Building \"{ image["@name"] }\": Done')
+		logger.info(f'Building \"{ name }\": Done')
 
 	# end
 	exit(0)
