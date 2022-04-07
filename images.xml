@@ -36,12 +36,8 @@
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mm-hbp-microsd.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
 	</image>
-	<image name="sr-imx8-debian-buster-imx8mp-cubox-pulse">
-		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-cubox-pulse-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
-	</image>
-	<image name="sr-imx8-debian-buster-imx8mp-hummingboard-pulse">
-		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-hbp-microsd.bin"/>
+	<image name="sr-imx8-debian-buster-imx8mp">
+		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-10"/>
 	</image>
 	<image name="sr-imx8-debian-buster-imx8mq-hummingboard-pulse">
@@ -53,12 +49,8 @@
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mm-hbp-microsd.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
-	<image name="sr-imx8-debian-bullseye-imx8mp-cubox-pulse">
-		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-cubox-pulse-microsd.bin"/>
-		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
-	</image>
-	<image name="sr-imx8-debian-bullseye-imx8mp-hummingboard-pulse">
-		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp-hbp-microsd.bin"/>
+	<image name="sr-imx8-debian-bullseye-imx8mp">
+		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
 	<image name="sr-imx8-debian-bullseye-imx8mq-hummingboard-pulse">
