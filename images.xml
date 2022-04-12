@@ -16,6 +16,10 @@
 		<section offset="512" name="u-boot" type="blob" source="u-boot-cfgt-microsd.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-8040-debian-11"/>
 	</image>
+	<!-- Armada 38x Debian 11 -->
+	<image name="sr-a38x-debian-bullseye">
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-a38x-debian-11"/>
+	</image>
 	<!-- CN913 Debian 12 -->
 	<image name="sr-cn913x-debian-bookworm">
 		<section offset="2097152" name="u-boot" type="blob" source="u-boot-cfbase-9130-microsd.bin"/>
