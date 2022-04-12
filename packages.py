@@ -22,21 +22,21 @@ def FetchPackagesSources(manifestrepo, destdir, manifest):
 
 	process = subprocess.run(['repo', 'sync', '--fetch-submodules', '-j2'], cwd=destdir)
 
-def BuildPackage(sourcedir, builddir, extrarepo=None):
+def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
 	if not os.path.isdir(builddir):
 		os.mkdir(path=builddir)
 
 	if not extrarepo is None:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', 'arm64', '--arch-all', '-j5', f'--extra-repository={ extrarepo }', sourcedir], cwd=builddir)
+		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', sourcedir], cwd=builddir)
 	else:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', 'arm64', '--arch-all', '-j5', sourcedir], cwd=builddir)
+		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', sourcedir], cwd=builddir)
 	if process.returncode != 0:
 		print(f'sbuild returned { process.returncode } for { sourcedir }!')
 		return False
 
 	return True
 
-def BuildPackages(sourcesdir, packagesdir, repodir, signkey=None, signkeypassfile=None):
+def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, signkeypassfile=None):
 	# create working directory if missing
 	if not os.path.isdir(packagesdir):
 		os.mkdir(path=packagesdir)
@@ -51,6 +51,8 @@ def BuildPackages(sourcesdir, packagesdir, repodir, signkey=None, signkeypassfil
 
 	# spawn local http-server for the repo
 	with Popen(['python3', '-m', 'http.server', '--directory', repodir], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) as httpd:
+		# generate local repo uri
+		extrarepo = f'deb [arch={ hostarch } trusted=yes] http://localhost:8000/ bullseye main'
 
 		# foreach package (in order)
 		for dir in sorted(os.listdir(sourcesdir)):
@@ -61,7 +63,7 @@ def BuildPackages(sourcesdir, packagesdir, repodir, signkey=None, signkeypassfil
 
 			# invoke build system
 			print(sourcedir)
-			result = BuildPackage(sourcedir=sourcedir, builddir=f'{ packagesdir }/{ dir }', extrarepo=f'deb [trusted=yes] http://localhost:8000/ bullseye main')
+			result = BuildPackage(sourcedir=sourcedir, builddir=f'{ packagesdir }/{ dir }', hostarch=hostarch, extrarepo=extrarepo)
 
 			# send to repo
 			SendToRepo(packagesdir=f'{ packagesdir }/{ dir }', repodir=repodir, signkey=signkey, signkeypassfile=signkeypassfile)
@@ -110,10 +112,17 @@ if __name__ == "__main__":
 
 	# handle cli options
 	options = argparse.ArgumentParser(description='SolidRun Debian Package Builder')
+	options.add_argument('-a', '--arch', action='store', required=True, help='select the target debian architecture to build for')
 	options.add_argument('-c', '--collection', action='store', required=True, help='select a package collection')
 	options.add_argument('-s', '--signkey', action='store', help='enable signing with a gpg key id')
 	options.add_argument('-p', '--signkeypassfile', action='store', help='read signing key password from file')
 	args = options.parse_args()
+
+	# test if arch arg is valid
+	archtest = subprocess.run(['dpkg-architecture', '-a', f'"{ args.arch }"'])
+	if archtest.returncode != 0:
+		print(f'Error: target architecture { args.arch } is invalid!')
+		exit(1)
 
 	# test if collection arg is valid
 	collectiondir = os.path.join(pwd, 'package-recipes', args.collection)

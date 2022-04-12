@@ -2,7 +2,7 @@ $$destdir = "$destdir";
 $$inputdir = "$sourcedir";
 
 @distributions = ('bullseye');
-@architectures = ('arm64');
+@architectures = ('arm64', 'armhf');
 @sections = ('main');
 
 %release = ('origin' => "solidrun/bsp-imx8/v3", 'description' => "SolidRun BSP for i.MX8 v3");
