@@ -53,6 +53,10 @@
 		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mp.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
 	</image>
+	<image name="sr-imx8-debian-bullseye-imx8mn-compact">
+		<section offset="32768" name="u-boot" type="blob" source="u-boot-imx8mn-compact.bin"/>
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11-imx8mn-compact"/>
+	</image>
 	<image name="sr-imx8-debian-bullseye-imx8mq-hummingboard-pulse">
 		<section offset="33792" name="u-boot" type="blob" source="u-boot-imx8mq-hbp-microsd.bin"/>
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx8-debian-11"/>
