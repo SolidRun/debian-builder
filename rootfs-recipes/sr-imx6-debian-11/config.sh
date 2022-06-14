@@ -21,17 +21,13 @@ systemctl set-default multi-user.target
 
 # configure repositories
 cat > /etc/apt/sources.list << EOF
-deb http://deb.debian.org/debian/ bullseye main non-free
-deb-src http://deb.debian.org/debian/ bullseye main non-free
-deb http://deb.debian.org/debian-security/ bullseye-security main non-free
-deb-src http://deb.debian.org/debian-security/ bullseye-security main non-free
-deb http://deb.debian.org/debian/ bullseye-updates main non-free
-deb-src http://deb.debian.org/debian/ bullseye-updates main non-free
+deb http://deb.debian.org/debian/ bullseye main
+deb-src http://deb.debian.org/debian/ bullseye main
+deb http://security.debian.org/debian-security bullseye-security main
+deb-src http://security.debian.org/debian-security bullseye-security main
 
-deb https://repo.solid-build.xyz/debian/bullseye/bsp-any /
-deb-src https://repo.solid-build.xyz/debian/bullseye/bsp-any /
-deb https://repo.solid-build.xyz/debian/bullseye/bsp-imx6v2 /
-deb-src https://repo.solid-build.xyz/debian/bullseye/bsp-imx6v2 /
+deb https://repo.solid-run.com/v2/debian/imx6/v3 bullseye main non-free
+deb-src https://repo.solid-run.com/v2/debian/imx6/v3 bullseye main non-free
 EOF
 
 # configure first nic

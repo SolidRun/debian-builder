@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2020-2021 Josua Mayer <josua@solid-run.com>
+    Copyright 2020-2022 Josua Mayer <josua@solid-run.com>
 -->
 <image name="sr-imx8">
 	<description type="system">
@@ -9,7 +9,7 @@
 		<specification>SolidRun Debian 11 for i.MX6</specification>
 	</description>
 	<preferences>
-		<version>5</version>
+		<version>6</version>
 		<packagemanager>apt-get</packagemanager>
 		<type image="ext4"/>
 		<rpm-check-signatures>true</rpm-check-signatures>
@@ -21,11 +21,8 @@
 	<repository type="apt-deb" distribution="bullseye" components="main non-free" use_for_bootstrap="true" repository_gpgcheck="true">
 		<source path="http://deb.debian.org/debian"/>
 	</repository>
-	<repository type="apt-deb" repository_gpgcheck="true">
-		<source path="https://repo.solid-build.xyz/debian/bullseye/bsp-any"/>
-	</repository>
-	<repository type="apt-deb" repository_gpgcheck="true">
-		<source path="https://repo.solid-build.xyz/debian/bullseye/bsp-imx6v2"/>
+	<repository type="apt-deb" repository_gpgcheck="false" distribution="bullseye" components="main non-free">
+		<source path="http://127.0.0.1:8000/"/>
 	</repository>
 	<packages type="bootstrap">
 		<!-- additional packages for bootstrap stage -->
@@ -61,13 +58,11 @@
 		<package name="sudo"/>
 		<package name="usbutils"/>
 		<package name="wget"/>
-		<!-- system packages: bsp-any -->
+		<!-- system packages: bsp -->
 		<package name="bsp-solidrun-imx6"/>
-		<package name="devmem2"/>
-		<package name="solidrun-keyring"/>
-		<!-- system packages: bsp-imx6v2 -->
+		<!--<package name="devmem2"/>-->
 		<package name="firmware-imx"/>
-		<!-- multimedia packages -->
+		<package name="solidrun-keyring"/>
 	</packages>
 	<packages type="image">
 		<!-- system packages: bootable disk image -->
