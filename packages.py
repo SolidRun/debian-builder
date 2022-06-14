@@ -4,14 +4,52 @@
 #
 
 import argparse
+import hashlib
 import os
 import shutil
 from string import Template
 import subprocess
 from subprocess import Popen
 import tempfile
+import urllib.request
 
-def FetchPackagesSources(manifestrepo, destdir, manifest):
+def CheckHash(path, algorithm, hash):
+	h = hashlib.new(algorithm)
+
+	with open(path, 'rb') as f:
+		while chunk := f.read(8192):
+			h.update(chunk)
+
+	return h.hexdigest() == hash
+
+def FetchPackagesSourceFiles(destdir, listfile):
+	if not os.path.isdir(destdir):
+		os.mkdir(path=destdir)
+
+	with open(listfile, "r") as list:
+		for entry in list:
+			url, path, name, hashalg, hash = entry.split()
+			outpath = os.path.join(destdir, path, name)
+			print(f'fetching { outpath } from { url } ...')
+
+			if not os.path.isdir(os.path.join(destdir, path)):
+				os.mkdir(path=os.path.join(destdir, path))
+
+			if os.path.isfile(outpath):
+				if CheckHash(path=outpath, algorithm=hashalg, hash=hash):
+					print(f'file exists and checksum matches, skipping download')
+					continue
+
+			with urllib.request.urlopen(url) as r, open(outpath, 'wb') as f:
+				shutil.copyfileobj(r, f)
+
+			if not CheckHash(path=outpath, algorithm=hashalg, hash=hash):
+				print(f'Error: checksum does not match!')
+				return False
+
+	return True
+
+def FetchPackagesSourceRepo(manifestrepo, destdir, manifest):
 	if not os.path.isdir(destdir):
 		os.mkdir(path=destdir)
 
@@ -119,7 +157,7 @@ if __name__ == "__main__":
 	args = options.parse_args()
 
 	# test if arch arg is valid
-	archtest = subprocess.run(['dpkg-architecture', '-a', f'"{ args.arch }"'])
+	archtest = subprocess.run(['dpkg-architecture', '-a', f'{ args.arch }'], stdout=subprocess.DEVNULL)
 	if archtest.returncode != 0:
 		print(f'Error: target architecture { args.arch } is invalid!')
 		exit(1)
@@ -133,6 +171,7 @@ if __name__ == "__main__":
 	if not os.path.isfile(manifestfile):
 		print(f'Error: { manifestfile } does not exist!')
 		exit(1)
+	listfile = os.path.join(collectiondir, 'download.list')
 
 	# TODO: test if signkey arg is valid
 
@@ -149,12 +188,14 @@ if __name__ == "__main__":
 
 	# fetch sources
 	sourcesdir = os.path.join(builddir, f'sources-{ args.collection }')
-	FetchPackagesSources(manifestrepo=pwd, destdir=sourcesdir, manifest=manifestfile)
+	if os.path.isfile(listfile):
+		FetchPackagesSourceFiles(destdir=sourcesdir, listfile=listfile)
+	FetchPackagesSourceRepo(manifestrepo=pwd, destdir=sourcesdir, manifest=manifestfile)
 
 	# build packages
 	packagesdir = os.path.join(builddir, f'packages-{ args.collection }')
 	repodir = os.path.join(builddir, f'repo-{ args.collection }')
-	BuildPackages(sourcesdir=sourcesdir, packagesdir=packagesdir, repodir=repodir)
+	BuildPackages(sourcesdir=sourcesdir, packagesdir=packagesdir, repodir=repodir, hostarch=args.arch, signkey=args.signkey, signkeypassfile=args.signkeypassfile)
 
 	# end
 	exit(0)
