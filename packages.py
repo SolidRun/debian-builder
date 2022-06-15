@@ -65,9 +65,9 @@ def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
 		os.mkdir(path=builddir)
 
 	if not extrarepo is None:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', sourcedir], cwd=builddir)
+		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { os.path.dirname(sourcedir) } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', sourcedir], cwd=builddir)
 	else:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', sourcedir], cwd=builddir)
+		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { os.path.dirname(sourcedir) }/.. -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', sourcedir], cwd=builddir)
 	if process.returncode != 0:
 		print(f'sbuild returned { process.returncode } for { sourcedir }!')
 		return False
