@@ -64,10 +64,33 @@ def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
 	if not os.path.isdir(builddir):
 		os.mkdir(path=builddir)
 
-	if not extrarepo is None:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { os.path.dirname(sourcedir) } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', sourcedir], cwd=builddir)
+	pkgsource = None
+	pkgsourcedir = os.path.join(sourcedir, 'pkgsrc')
+	if os.path.isdir(pkgsourcedir):
+		pkgsource = pkgsourcedir
 	else:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { os.path.dirname(sourcedir) }/.. -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', sourcedir], cwd=builddir)
+		# look for a source package file
+		pkgsourcefile = None
+		for entry in os.scandir(sourcedir):
+			if entry.is_file() and entry.name.endswith('.dsc'):
+				if not pkgsourcefile is None:
+					print('Error: Found multiple source packages in { sourcedir }!')
+					return False
+
+				pkgsourcefile = os.path.join(sourcedir, entry.name)
+
+		if not pkgsourcefile is None:
+			pkgsource = pkgsourcefile
+
+	if pkgsource is None:
+		print(f'Error: Found no source package in { sourcedir }!')
+		return False
+
+	print(f'Building { pkgsource }!')
+	if not extrarepo is None:
+		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
+	else:
+		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
 	if process.returncode != 0:
 		print(f'sbuild returned { process.returncode } for { sourcedir }!')
 		return False

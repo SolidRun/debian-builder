@@ -2,11 +2,11 @@
 <manifest>
 	<remote name="github" fetch="https://github.com"/>
 
-	<project path="0010-keyring" revision="master" name="SolidRun/pkg-solidrun-keyring" remote="github"/>
-	<!--<project path="0020-linux" revision="bullseye-imx6" name="SolidRun/pkg-linux" remote="github"/>-->
-	<project path="0021-firmware-imx" revision="master" name="mxOBS/deb-pkg_firmware-imx" remote="github"/>
-	<project path="0022-cuboxi-firmware-wireless" revision="master" name="SolidRun/deb-pkg_cuboxi-firmware-wireless" remote="github"/>
-	<project path="0030-bsp" revision="master" name="SolidRun/pkg-bsp" remote="github"/>
-	<project path="0040-runonce" revision="master" name="Artox/system-startup-runonce" remote="github"/>
-	<project path="0050-expand-fs" revision="master" name="mxOBS/expand-fs" remote="github"/>
+	<project path="0010-keyring/pkgsrc" revision="master" name="SolidRun/pkg-solidrun-keyring" remote="github"/>
+	<!--<project path="0020-linux/pkgsrc" revision="bullseye-imx6" name="SolidRun/pkg-linux" remote="github"/>-->
+	<project path="0021-firmware-imx/pkgsrc" revision="master" name="mxOBS/deb-pkg_firmware-imx" remote="github"/>
+	<project path="0022-cuboxi-firmware-wireless/pkgsrc" revision="master" name="SolidRun/deb-pkg_cuboxi-firmware-wireless" remote="github"/>
+	<project path="0030-bsp/pkgsrc" revision="master" name="SolidRun/pkg-bsp" remote="github"/>
+	<project path="0040-runonce/pkgsrc" revision="master" name="Artox/system-startup-runonce" remote="github"/>
+	<project path="0050-expand-fs/pkgsrc" revision="master" name="mxOBS/expand-fs" remote="github"/>
 </manifest>
