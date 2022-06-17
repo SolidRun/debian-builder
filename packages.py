@@ -67,7 +67,16 @@ def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
 	pkgsource = None
 	pkgsourcedir = os.path.join(sourcedir, 'pkgsrc')
 	if os.path.isdir(pkgsourcedir):
-		pkgsource = pkgsourcedir
+		# ensure control-file exists
+		pkgsourcecontrolfile = os.path.join(pkgsourcedir, 'debian', 'control')
+
+		if not os.path.isfile(pkgsourcecontrolfile):
+			#  last resort: maybe there is a rule to make it
+			print(f'Trying to generate { pkgsourcecontrolfile }!')
+			process = subprocess.run(['make', '-f', 'debian/rules', 'debian/control'], cwd=pkgsourcedir)
+
+		if os.path.isfile(pkgsourcecontrolfile):
+			pkgsource = pkgsourcedir
 	else:
 		# look for a source package file
 		pkgsourcefile = None
