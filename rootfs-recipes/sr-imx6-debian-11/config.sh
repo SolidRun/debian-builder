@@ -26,8 +26,8 @@ deb-src http://deb.debian.org/debian/ bullseye main
 deb http://security.debian.org/debian-security bullseye-security main
 deb-src http://security.debian.org/debian-security bullseye-security main
 
-deb https://repo.solid-run.com/v2/debian/imx6/v3 bullseye main non-free
-deb-src https://repo.solid-run.com/v2/debian/imx6/v3 bullseye main non-free
+#deb https://repo.solid-run.com/v2/debian/imx6/v3 bullseye main non-free
+#deb-src https://repo.solid-run.com/v2/debian/imx6/v3 bullseye main non-free
 EOF
 
 # configure first nic
@@ -43,6 +43,9 @@ apt-file update && update-command-not-found
 # configure bootargs
 sed -E -i "s;^LINUX_KERNEL_CMDLINE=.*$;LINUX_KERNEL_CMDLINE=\"deferred_probe_timeout=10 ahci_imx.hotplug=1 cma=128M log_level=7 net.ifnames=0\";g" "$buildroot/etc/default/flash-kernel"
 
+# lock forked kernel package
+apt-mark hold linux-image-armmp linux-image-5.10.0-13-armmp
+
 # install boot-script and DTBs
 env FK_MACHINE="SolidRun Cubox-i Solo/DualLite" flash-kernel
 env FK_MACHINE="SolidRun Cubox-i Solo/DualLite (1.5som+emmc)" flash-kernel
@@ -50,6 +53,10 @@ env FK_MACHINE="SolidRun Cubox-i Solo/DualLite (1.5som)" flash-kernel
 env FK_MACHINE="SolidRun Cubox-i Dual/Quad" flash-kernel
 env FK_MACHINE="SolidRun Cubox-i Dual/Quad (1.5som+emmc)" flash-kernel
 env FK_MACHINE="SolidRun Cubox-i Dual/Quad (1.5som)" flash-kernel
+env FK_MACHINE="SolidRun HummingBoard2 CBi Solo/DualLite (1.5som)" flash-kernel
+env FK_MACHINE="SolidRun HummingBoard2 CBi Solo/DualLite (1.5som+emmc)" flash-kernel
+env FK_MACHINE="SolidRun HummingBoard2 CBi Dual/Quad (1.5som)" flash-kernel
+env FK_MACHINE="SolidRun HummingBoard2 CBi Dual/Quad (1.5som+emmc)" flash-kernel
 env FK_MACHINE="SolidRun HummingBoard2 Solo/DualLite" flash-kernel
 env FK_MACHINE="SolidRun HummingBoard2 Solo/DualLite (1.5som+emmc)" flash-kernel
 env FK_MACHINE="SolidRun HummingBoard2 Solo/DualLite (1.5som)" flash-kernel

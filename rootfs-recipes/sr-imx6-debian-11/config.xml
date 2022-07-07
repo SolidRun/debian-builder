@@ -56,10 +56,12 @@
 		<package name="psmisc"/>
 		<package name="rfkill"/>
 		<package name="sudo"/>
+		<package name="systemd-timesyncd"/>
 		<package name="usbutils"/>
 		<package name="wget"/>
 		<!-- system packages: bsp -->
 		<package name="bsp-solidrun-imx6"/>
+		<package name="can-utils"/>
 		<!--<package name="devmem2"/>-->
 		<package name="firmware-imx"/>
 		<package name="solidrun-keyring"/>
