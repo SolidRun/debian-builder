@@ -5,7 +5,7 @@ $$inputdir = "$sourcedir";
 @architectures = ('all', 'arm64', 'armhf');
 @sections = ('main', 'non-free');
 
-%release = ('origin' => "solidrun/bsp-imx8/v3", 'description' => "SolidRun BSP for i.MX8 v3");
+%release = ('origin' => "$origin", 'description' => "$description");
 
 $$gpgkey = $gpgkey if ($gpgkey);
 $$gpgpassfile = $gpgpassfile if ($gpgpassfile);

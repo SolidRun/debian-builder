@@ -106,7 +106,7 @@ def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
 
 	return True
 
-def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, signkeypassfile=None):
+def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, signkeypassfile=None, origin=None, origin_description=None):
 	# create working directory if missing
 	if not os.path.isdir(packagesdir):
 		os.mkdir(path=packagesdir)
@@ -117,7 +117,7 @@ def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, sign
 	if not os.path.isdir(f'{ repodir }/dists'):
 		os.mkdir(path=f'{ repodir }/dists')
 	with tempfile.TemporaryDirectory() as emptydir:
-		SendToRepo(packagesdir=emptydir, repodir=repodir, signkey=signkey, signkeypassfile=signkeypassfile)
+		SendToRepo(packagesdir=emptydir, repodir=repodir, signkey=signkey, signkeypassfile=signkeypassfile, origin=origin, origin_description=origin_description)
 
 	# spawn local http-server for the repo
 	with Popen(['python3', '-m', 'http.server', '--directory', repodir], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) as httpd:
@@ -136,14 +136,14 @@ def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, sign
 			result = BuildPackage(sourcedir=sourcedir, builddir=f'{ packagesdir }/{ dir }', hostarch=hostarch, extrarepo=extrarepo)
 
 			# send to repo
-			SendToRepo(packagesdir=f'{ packagesdir }/{ dir }', repodir=repodir, signkey=signkey, signkeypassfile=signkeypassfile)
+			SendToRepo(packagesdir=f'{ packagesdir }/{ dir }', repodir=repodir, signkey=signkey, signkeypassfile=signkeypassfile, origin=origin, origin_description=origin_description)
 
 		# kill local http-server
 		httpd.terminate()
 
 	return
 
-def SendToRepo(packagesdir, repodir, signkey=None, signkeypassfile=None):
+def SendToRepo(packagesdir, repodir, signkey=None, signkeypassfile=None, origin='solidrun/debian/bsp', origin_description='SolidRun BSP'):
 	# fix signkey args None for perl False
 	if signkey is None:
 		signkey = '0'
@@ -159,6 +159,8 @@ def SendToRepo(packagesdir, repodir, signkey=None, signkeypassfile=None):
 				sourcedir = packagesdir,
 				gpgkey = f'"{ signkey }"',
 				gpgpassfile = f'"{ signkeypassfile }"',
+				origin = origin,
+				description = origin_description,
 			))
 			configfile.write(result.encode('ascii'))
 			configfile.flush()
@@ -186,6 +188,8 @@ if __name__ == "__main__":
 	options.add_argument('-c', '--collection', action='store', required=True, help='select a package collection')
 	options.add_argument('-s', '--signkey', action='store', help='enable signing with a gpg key id')
 	options.add_argument('-p', '--signkeypassfile', action='store', help='read signing key password from file')
+	options.add_argument('-o', '--origin', action='store', help='"origin" string for the repository metadata (e.g. for apt pinning)', default='solidrun/debian/bsp')
+	options.add_argument('-O', '--origin-description', action='store', help='"origin" description the repository metadata', default='SolidRun BSP')
 	args = options.parse_args()
 
 	# test if arch arg is valid
@@ -227,7 +231,7 @@ if __name__ == "__main__":
 	# build packages
 	packagesdir = os.path.join(builddir, f'packages-{ args.collection }')
 	repodir = os.path.join(builddir, f'repo-{ args.collection }')
-	BuildPackages(sourcesdir=sourcesdir, packagesdir=packagesdir, repodir=repodir, hostarch=args.arch, signkey=args.signkey, signkeypassfile=args.signkeypassfile)
+	BuildPackages(sourcesdir=sourcesdir, packagesdir=packagesdir, repodir=repodir, hostarch=args.arch, signkey=args.signkey, signkeypassfile=args.signkeypassfile, origin=args.origin, origin_description=args.origin_description)
 
 	# end
 	exit(0)
