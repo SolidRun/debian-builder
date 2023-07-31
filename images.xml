@@ -29,6 +29,14 @@
 	<image name="sr-cn913x-debian-bullseye">
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-cn913x-debian-11"/>
 	</image>
+	<!-- i.MX6 Debian 12 -->
+	<image name="sr-imx6-debian-bookworm">
+		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx6-debian-12"/>
+		<!--<section offset="1024" name="spl" type="blob" source="build/sr-imx6-debian-bullseye/rootfs/usr/lib/u-boot/mx6cuboxi/SPL"/>-->
+		<!--<section offset="70656" name="u-boot" type="blob" source="build/sr-imx6-debian-bullseye/rootfs/usr/lib/u-boot/mx6cuboxi/u-boot.img"/>-->
+		<section offset="1024" name="spl" type="blob" source="spl-imx6-sdhc.bin"/>
+		<section offset="70656" name="u-boot" type="blob" source="u-boot-imx6-sdhc.img"/>
+	</image>
 	<!-- i.MX6 Debian 11 -->
 	<image name="sr-imx6-debian-bullseye">
 		<section offset="8388608" name="rootfs" type="rootfs" source="rootfs-recipes/sr-imx6-debian-11"/>

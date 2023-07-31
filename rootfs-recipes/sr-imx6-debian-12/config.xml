@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Josua Mayer <josua@solid-run.com>
+-->
+<image name="sr-imx8">
+	<description type="system">
+		<author>Josua Mayer</author>
+		<contact>support@solid-run.com</contact>
+		<specification>SolidRun Debian 12 for i.MX6</specification>
+	</description>
+	<preferences>
+		<version>6</version>
+		<packagemanager>apt-get</packagemanager>
+		<type image="ext4"/>
+		<rpm-check-signatures>true</rpm-check-signatures>
+	</preferences>
+	<users>
+		<user name="root" password="" groups="root" home="/root" shell="/usr/bin/bash"/>
+		<user name="debian" pwdformat="plain" password="debian" groups="debian,audio,sudo,video" home="/home/debian" shell="/usr/bin/bash"/>
+	</users>
+	<repository type="apt-deb" distribution="bookworm" components="main non-free-firmware" use_for_bootstrap="true" repository_gpgcheck="true">
+		<source path="http://deb.debian.org/debian"/>
+	</repository>
+	<repository type="apt-deb" repository_gpgcheck="false" distribution="bookworm" components="main non-free">
+		<source path="http://127.0.0.1:8000/"/>
+	</repository>
+	<packages type="bootstrap">
+		<!-- additional packages for bootstrap stage -->
+		<package name="apt-transport-https"/>
+		<package name="busybox"/>
+		<package name="ca-certificates"/>
+		<package name="curl"/>
+		<package name="locales"/>
+		<package name="initramfs-tools"/>
+		<package name="systemd-sysv"/>
+	</packages>
+	<packages type="image">
+		<!-- system packages: debian -->
+		<package name="alsa-utils"/>
+		<package name="bluez"/>
+		<package name="command-not-found"/>
+		<package name="firmware-misc-nonfree"/>
+		<package name="firmware-ti-connectivity"/>
+		<package name="flash-kernel"/>
+		<package name="haveged"/>
+		<package name="i2c-tools"/>
+		<package name="ifplugd"/>
+		<package name="ifupdown"/>
+		<package name="isc-dhcp-client"/>
+		<package name="iw"/>
+		<package name="linux-image-armmp"/>
+		<package name="mtd-utils"/>
+		<package name="nano"/>
+		<package name="ntfs-3g"/>
+		<package name="openssh-server"/>
+		<package name="pciutils"/>
+		<package name="psmisc"/>
+		<package name="rfkill"/>
+		<package name="sudo"/>
+		<package name="systemd-timesyncd"/>
+		<package name="tasksel"/>
+		<package name="usbutils"/>
+		<package name="wget"/>
+		<!-- system packages: bsp -->
+		<package name="bsp-solidrun-imx6"/>
+		<package name="can-utils"/>
+		<package name="firmware-imx"/>
+		<!--<package name="devmem2"/>-->
+		<package name="solidrun-keyring"/>
+	</packages>
+	<packages type="image">
+		<!-- system packages: bootable disk image -->
+		<archive name="expand-fs.tar"/>
+		<package name="expand-fs"/>
+		<package name="flash-kernel"/>
+		<archive name="hosts.tar"/>
+		<package name="parted"/>
+		<package name="runonce"/>
+		<package name="uuid-runtime"/>
+		<package name="u-boot-tools"/>
+		<package name="u-boot-imx"/>
+	</packages>
+</image>

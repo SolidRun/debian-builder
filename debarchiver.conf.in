@@ -1,7 +1,7 @@
 $$destdir = "$destdir";
 $$inputdir = "$sourcedir";
 
-@distributions = ('bullseye');
+@distributions = ('bookworm', 'bullseye');
 @architectures = ('all', 'arm64', 'armhf');
 @sections = ('main', 'non-free');
 
