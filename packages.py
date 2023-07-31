@@ -60,7 +60,7 @@ def FetchPackagesSourceRepo(manifestrepo, destdir, manifest):
 
 	process = subprocess.run(['repo', 'sync', '--fetch-submodules', '-j2'], cwd=destdir)
 
-def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
+def BuildPackage(sourcedir, builddir, hostarch, release, extrarepo=None):
 	if not os.path.isdir(builddir):
 		os.mkdir(path=builddir)
 
@@ -97,16 +97,16 @@ def BuildPackage(sourcedir, builddir, hostarch, extrarepo=None):
 
 	print(f'Building { pkgsource }!')
 	if not extrarepo is None:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
+		process = subprocess.run(['sbuild', '--dist', release, '--host', hostarch, '--arch-all', '-j5', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
 	else:
-		process = subprocess.run(['sbuild', '--dist', 'bullseye', '--host', hostarch, '--arch-all', '-j5', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
+		process = subprocess.run(['sbuild', '--dist', release, '--host', hostarch, '--arch-all', '-j5', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
 	if process.returncode != 0:
 		print(f'sbuild returned { process.returncode } for { sourcedir }!')
 		return False
 
 	return True
 
-def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, signkeypassfile=None, origin=None, origin_description=None):
+def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, release, signkey=None, signkeypassfile=None, origin=None, origin_description=None):
 	# create working directory if missing
 	if not os.path.isdir(packagesdir):
 		os.mkdir(path=packagesdir)
@@ -122,7 +122,7 @@ def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, sign
 	# spawn local http-server for the repo
 	with Popen(['python3', '-m', 'http.server', '--directory', repodir], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) as httpd:
 		# generate local repo uri
-		extrarepo = f'deb [arch={ hostarch } trusted=yes] http://localhost:8000/ bullseye main'
+		extrarepo = f'deb [arch={ hostarch } trusted=yes] http://localhost:8000/ { release } main'
 
 		# foreach package (in order)
 		for dir in sorted(os.listdir(sourcesdir)):
@@ -133,7 +133,7 @@ def BuildPackages(sourcesdir, packagesdir, repodir, hostarch, signkey=None, sign
 
 			# invoke build system
 			print(sourcedir)
-			result = BuildPackage(sourcedir=sourcedir, builddir=f'{ packagesdir }/{ dir }', hostarch=hostarch, extrarepo=extrarepo)
+			result = BuildPackage(sourcedir=sourcedir, builddir=f'{ packagesdir }/{ dir }', hostarch=hostarch, release=release, extrarepo=extrarepo)
 
 			# send to repo
 			SendToRepo(packagesdir=f'{ packagesdir }/{ dir }', repodir=repodir, signkey=signkey, signkeypassfile=signkeypassfile, origin=origin, origin_description=origin_description)
@@ -185,6 +185,7 @@ if __name__ == "__main__":
 	# handle cli options
 	options = argparse.ArgumentParser(description='SolidRun Debian Package Builder')
 	options.add_argument('-a', '--arch', action='store', required=True, help='select the target debian architecture to build for')
+	options.add_argument('-r', '--release', action='store', required=True, help='select the target debian release to build for')
 	options.add_argument('-c', '--collection', action='store', required=True, help='select a package collection')
 	options.add_argument('-s', '--signkey', action='store', help='enable signing with a gpg key id')
 	options.add_argument('-p', '--signkeypassfile', action='store', help='read signing key password from file')
@@ -231,7 +232,7 @@ if __name__ == "__main__":
 	# build packages
 	packagesdir = os.path.join(builddir, f'packages-{ args.collection }')
 	repodir = os.path.join(builddir, f'repo-{ args.collection }')
-	BuildPackages(sourcesdir=sourcesdir, packagesdir=packagesdir, repodir=repodir, hostarch=args.arch, signkey=args.signkey, signkeypassfile=args.signkeypassfile, origin=args.origin, origin_description=args.origin_description)
+	BuildPackages(sourcesdir=sourcesdir, packagesdir=packagesdir, repodir=repodir, hostarch=args.arch, signkey=args.signkey, release=args.release, signkeypassfile=args.signkeypassfile, origin=args.origin, origin_description=args.origin_description)
 
 	# end
 	exit(0)
