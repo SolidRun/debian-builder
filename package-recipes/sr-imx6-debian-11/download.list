@@ -1,2 +1,2 @@
 https://www.nxp.com/lgfiles/NMG/MAD/YOCTO/firmware-imx-8.10.bin 0021-firmware-imx firmware-imx-8.10.bin sha512 24d4466b3c2202ceb1c22be2b3db4482eee54d09e167083cc53e82cd9f22ef9ac0cba5a1a3341cacf8ee01adf014eb25f4aa437f35a43ac102dd2f22e935821b
-http://deb.debian.org/debian/pool/main/l/linux/linux_5.10.127.orig.tar.xz 0020-linux linux_5.10.127.orig.tar.xz sha512 c467957c4b22dbd11416717b7f23b8f12e42e2ce5cd01877b849e91aacbd7a94ccba0fcfed54e702882dfe6a7508c469699146cae42d85d17654499dfaf9fced
+http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_5.10.179.orig.tar.xz 0020-linux linux_5.10.179.orig.tar.xz sha512 7f41fed871bb9e3f53fd10c9b97191d47ca75e37dcc81bb733e416c1bae709b7042ff595150ac3048d0fb01c50262478dc242fb91f6b2b2c3a9dfdb9d94b9393
