@@ -97,9 +97,9 @@ def BuildPackage(sourcedir, builddir, hostarch, buildarch, release, extrarepo=No
 
 	print(f'Building { pkgsource }!')
 	if not extrarepo is None:
-		process = subprocess.run(['sbuild', '--dist', release, '--host', hostarch, '--build', buildarch, '--arch-all', '-j4', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
+		process = subprocess.run(['sbuild', '--arch-all', '--dist', release, '--host', hostarch, '--build', buildarch, '--arch-all', '-j4', f'--extra-repository={ extrarepo }', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
 	else:
-		process = subprocess.run(['sbuild', '--dist', release, '--host', hostarch, '--build', buildarch, '--arch-all', '-j4', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
+		process = subprocess.run(['sbuild', '--arch-all', '--dist', release, '--host', hostarch, '--build', buildarch, '--arch-all', '-j4', f'--pre-build-commands=%e sh -c "install -m755 -d /usr/src/packages/SOURCES"', f'--pre-build-commands=find { sourcedir } -maxdepth 1 -name "*.bin" | cpio -H ustar -o | %e tar --show-transformed-names --transform "s;^.*/;;" -C /usr/src/packages/SOURCES -xvf -', pkgsource], cwd=builddir)
 	if process.returncode != 0:
 		print(f'sbuild returned { process.returncode } for { sourcedir }!')
 		return False
