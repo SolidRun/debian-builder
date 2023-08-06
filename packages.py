@@ -173,8 +173,12 @@ def SendToRepo(packagesdir, repodir, signkey=None, signkeypassfile=None, origin=
 		if os.path.isdir(rejectdir):
 			for file in os.listdir(rejectdir):
 				print(f'WARNING: debarchiver rejected { file }!')
+				if os.path.exists(f'{ packagesdir }/{ file }'):
+					os.remove(f'{ packagesdir }/{ file }')
 				shutil.move(src=f'{ rejectdir }/{ file }', dst=packagesdir)
 			os.rmdir(rejectdir)
+
+	return
 
 ###
 ### MAIN
