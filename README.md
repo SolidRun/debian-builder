@@ -58,7 +58,7 @@ $ENV{'DEB_BUILD_OPTIONS'} = 'parallel=12';
 ##############################################################################
 $run_lintian = 1;
 $lintian_opts = ['-i', '-I'];
-$run_piuparts = 1;
+$run_piuparts = 0;
 $piuparts_opts = ['--schroot', '%r-%a-sbuild', '--no-eatmydata'];
 $run_autopkgtest = 0;
 $autopkgtest_root_args = '';
