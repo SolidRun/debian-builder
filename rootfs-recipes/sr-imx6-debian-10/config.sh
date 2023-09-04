@@ -23,8 +23,8 @@ systemctl set-default multi-user.target
 cat > /etc/apt/sources.list << EOF
 deb http://deb.debian.org/debian/ buster main non-free
 deb-src http://deb.debian.org/debian/ buster main non-free
-deb http://security.debian.org/debian-security buster-security main non-free
-deb-src http://security.debian.org/debian-security buster-security main non-free
+deb http://security.debian.org/debian-security buster main non-free
+deb-src http://security.debian.org/debian-security buster main non-free
 
 deb http://repo.solid-run.com/v2/debian/imx6/v3 buster main non-free
 deb-src http://repo.solid-run.com/v2/debian/imx6/v3 buster main non-free
@@ -68,3 +68,5 @@ if [ ! -d /home/debian ]; then
 	cp -r /etc/skel /home/debian
 	chown -R debian:debian /home/debian
 fi
+
+sync
