@@ -21,6 +21,7 @@ This page provides instructions for installing official [Debian from debian.org]
 
 SolidRun provides prebuilt installer disk images:
 
+- [Debian Trixie (13)](https://images.solid-run.com/Pure-Debian/armhf/13/)
 - [Debian Bookworm (12)](https://images.solid-run.com/Pure-Debian/armhf/12/)
 
 Download an image above, decompress and write it to a suitable installation media such as USB flash drive or SD-Card, e.g. using `dd` or [etcher.io](https://etcher.io/)

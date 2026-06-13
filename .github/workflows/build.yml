@@ -50,6 +50,32 @@ jobs:
           source_dir: output
           destination_dir: Pure-Debian/armhf/12/${{ needs.build_tag.outputs.build_tag }}
 
+  build_debian_13_armhf:
+    needs: build_tag
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    outputs:
+      build_tag: ${{ steps.tag_step.outputs.build_tag }}
+    steps:
+      - name: Checkout pull-request
+        uses: actions/checkout@v4
+
+      - name: Generate Installers
+        run: |
+          rm -rf output
+          ./runme.sh debian_13_armhf
+
+      - name: Publish to S3
+        if: github.ref == 'refs/heads/develop-pure' && github.event_name != 'pull_request'
+        uses: shallwefootball/upload-s3-action@v1.3.3
+        with:
+          aws_key_id: ${{ secrets.IMAGES_S3_ACCESS }}
+          aws_secret_access_key: ${{ secrets.IMAGES_S3_SECRET }}
+          aws_bucket: ${{ secrets.IMAGES_S3_BUCKET }}
+          endpoint: ${{ secrets.IMAGES_S3_HOST }}
+          source_dir: output
+          destination_dir: Pure-Debian/armhf/13/${{ needs.build_tag.outputs.build_tag }}
+
   build_debian_13_arm64:
     needs: build_tag
     runs-on: ubuntu-24.04

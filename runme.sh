@@ -240,6 +240,27 @@ function build_debian_12_armhf() {
 	build_hdmedia debian-12.14.0-armhf-netinst.img d-i-12.14.0-armhf $((1024*1024*1024)) hd-media-12.14.0-armhf.tar.gz debian-12.14.0-armhf-netinst.iso "${BASEDIR}/generate/linux-image-armmp-12.14.0-kmod.cpio.gz" || return $?
 }
 
+# Debian trixie for armhf, net-install, for USB flash-drive (no bootloader)
+# - Armada 388:
+#   - Clearfog Base
+#   - Clearfog Pro
+#   - Helios-4
+# - i.MX6
+#   - Cubox-i
+#   - HummingBoard Base
+#   - HummingBoard Pro
+#   - HummingBoard Gate
+#   - HummingBoard Edge
+#   - TODO: HummingBoard CBi
+#   - TODO: SolidSense N6
+function build_debian_13_armhf() {
+	download linux-image-6.12.86+deb13-armmp_6.12.86-1_armhf.deb http://ftp.debian.org/debian/pool/main/l/linux linux-image-armmp-13.5.0.deb || return $?
+	download hd-media.tar.gz https://deb.debian.org/debian/dists/trixie/main/installer-armhf/20250803+deb13u5/images/hd-media hd-media-13.5.0-armhf.tar.gz || return $?
+	download debian-13.5.0-armhf-netinst.iso https://cdimage.debian.org/cdimage/release/13.5.0/armhf/iso-cd debian-13.5.0-armhf-netinst.iso || return $?
+
+	build_hdmedia debian-13.5.0-armhf-netinst.img d-i-13.5.0-armhf $((1024*1024*1024)) hd-media-13.5.0-armhf.tar.gz debian-13.5.0-armhf-netinst.iso "" || return $?
+}
+
 # Debian trixie for arm64, net-install, for USB flash-drive (no bootloader)
 # - AM64 HummingBoard-T
 # - CN9130 Clearfog Base
@@ -282,6 +303,7 @@ if [ $# -lt 1 ]; then
 	# build everything by default
 	s=0
 	build_debian_12_armhf || s=$?
+	build_debian_13_armhf || s=$?
 	build_debian_13_arm64 || s=$?
 else
 	# build specified only
