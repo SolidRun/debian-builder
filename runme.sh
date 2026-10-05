@@ -292,6 +292,10 @@ download linux-image-6.12.107+deb13-arm64_6.12.107-1_arm64.deb http://ftp.debian
 		usr/lib/modules/6.12.107+deb13-arm64/kernel/drivers/i2c/i2c-mux.ko.xz \
 		usr/lib/modules/6.12.107+deb13-arm64/kernel/drivers/i2c/muxes/i2c-mux-pca954x.ko.xz \
 		usr/lib/modules/6.12.107+deb13-arm64/kernel/drivers/phy/marvell/phy-mvebu-cp110-utmi.ko.xz \
+		usr/lib/modules/6.12.107+deb13-arm64/kernel/net/802/garp.ko.xz \
+		usr/lib/modules/6.12.107+deb13-arm64/kernel/net/802/mrp.ko.xz \
+		usr/lib/modules/6.12.107+deb13-arm64/kernel/net/8021q/8021q.ko.xz \
+		usr/lib/modules/6.12.107+deb13-arm64/kernel/net/dsa/tag_dsa.ko.xz \
 		|| return $?
 
 	build_hdmedia debian-13.7.0-arm64-netinst.img d-i-13.7.0-arm64 $((983*1024*1024)) hd-media-13.7.0-arm64.tar.gz debian-13.7.0-arm64-netinst.iso "${BASEDIR}/generate/linux-image-arm64-13.7.0-kmod.cpio.gz" || return $?
