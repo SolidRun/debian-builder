@@ -237,7 +237,7 @@ function build_debian_12_armhf() {
 	mkdir -p ${BASEDIR}/generate
 	build_initrd_kmod_patch "${BASEDIR}/download/linux-image-armmp-12.15.0.deb" "${BASEDIR}/generate/linux-image-armmp-12.15.0-kmod.cpio.gz" lib/modules/6.1.0-50-armmp/kernel/drivers/watchdog/imx2_wdt.ko || return $?
 
-	build_hdmedia debian-12.15.0-armhf-netinst.img d-i-12.15.0-armhf $((1024*1024*1024)) hd-media-12.15.0-armhf.tar.gz debian-12.15.0-armhf-netinst.iso "${BASEDIR}/generate/linux-image-armmp-12.15.0-kmod.cpio.gz" || return $?
+	build_hdmedia debian-12.15.0-armhf-netinst.img d-i-12.15.0-armhf $((983*1024*1024)) hd-media-12.15.0-armhf.tar.gz debian-12.15.0-armhf-netinst.iso "${BASEDIR}/generate/linux-image-armmp-12.15.0-kmod.cpio.gz" || return $?
 }
 
 # Debian trixie for armhf, net-install, for USB flash-drive (no bootloader)
@@ -258,7 +258,7 @@ function build_debian_13_armhf() {
 	download hd-media.tar.gz https://deb.debian.org/debian/dists/trixie/main/installer-armhf/20250803+deb13u7/images/hd-media hd-media-13.7.0-armhf.tar.gz || return $?
 	download debian-13.7.0-armhf-netinst.iso https://cdimage.debian.org/cdimage/release/13.7.0/armhf/iso-cd debian-13.7.0-armhf-netinst.iso || return $?
 
-	build_hdmedia debian-13.7.0-armhf-netinst.img d-i-13.7.0-armhf $((1024*1024*1024)) hd-media-13.7.0-armhf.tar.gz debian-13.7.0-armhf-netinst.iso "" || return $?
+	build_hdmedia debian-13.7.0-armhf-netinst.img d-i-13.7.0-armhf $((983*1024*1024)) hd-media-13.7.0-armhf.tar.gz debian-13.7.0-armhf-netinst.iso "" || return $?
 }
 
 # Debian trixie for arm64, net-install, for USB flash-drive (no bootloader)
@@ -294,7 +294,7 @@ download linux-image-6.12.107+deb13-arm64_6.12.107-1_arm64.deb http://ftp.debian
 		usr/lib/modules/6.12.107+deb13-arm64/kernel/drivers/phy/marvell/phy-mvebu-cp110-utmi.ko.xz \
 		|| return $?
 
-	build_hdmedia debian-13.7.0-arm64-netinst.img d-i-13.7.0-arm64 $((1024*1024*1024)) hd-media-13.7.0-arm64.tar.gz debian-13.7.0-arm64-netinst.iso "${BASEDIR}/generate/linux-image-arm64-13.7.0-kmod.cpio.gz" || return $?
+	build_hdmedia debian-13.7.0-arm64-netinst.img d-i-13.7.0-arm64 $((983*1024*1024)) hd-media-13.7.0-arm64.tar.gz debian-13.7.0-arm64-netinst.iso "${BASEDIR}/generate/linux-image-arm64-13.7.0-kmod.cpio.gz" || return $?
 
 	return 0
 }
