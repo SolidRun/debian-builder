@@ -144,9 +144,9 @@ Some sata ports fail to probe:
 [    1.300067] ahci f2540000.sata: No port enabled
 ```
 
-Debian 13 is still on v6.12, which can't handle sata controllers that have their first port disabled.
+Debian 13 is still on v6.12, which ~~can't handle sata controllers that have their first port disabled~~ can handle sata controllers that have their first port disabled only since 13.7.0 release.
 
-Further Linux v6.16 has introduced a new bug causing all sata ports disabled in device-tree, [fix was submitted to lkml](https://lore.kernel.org/r/20250911-cn913x-sr-fix-sata-v2-0-0d79319105f8@solid-run.com) and is awaiting review.
+~~Further Linux v6.16 has introduced a new bug causing all sata ports disabled in device-tree, [fix was submitted to lkml](https://lore.kernel.org/r/20250911-cn913x-sr-fix-sata-v2-0-0d79319105f8@solid-run.com) and is awaiting review.~~
 
 ~~Upgrade to v6.14 or later, e.g. by installing `linux-image-arm64` from [Debian Backports](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://backports.debian.org/Instructions/)~~.
 
@@ -161,17 +161,7 @@ This is due to ~~missing support for multi-lane pci ports on the mvebu-comphy dr
 
 ~~A [patch was submitted to lkml](https://lore.kernel.org/r/20250911-cn913x-sr-fix-sata-v2-0-0d79319105f8@solid-run.com) and is awaiting review.~~
 
-The issue is currently being discussed on [the mailing lists](https://lists.infradead.org/pipermail/linux-phy/2025-October/026249.html).
-
-As a workaround kernel can be booted with `clk_ignore_unused` commandline option:
-
-```
-Hit any key to stop autoboot:  0
-Marvell>> edit bootargs
-edit: clk_ignore_unused
-Marvell>> saveenv
-Saving Environment to MMC... Writing to MMC(1)... OK
-```
+The issue ~~is currently being discussed on [the mailing lists](https://lists.infradead.org/pipermail/linux-phy/2025-October/026249.html)~~ [has been resolved here](https://lists.infradead.org/pipermail/linux-arm-kernel/2025-October/1075501.html), the fix was applied to both master and stable.
 
 ### Can't boot from NVME (PCI)
 
